@@ -24,6 +24,6 @@ int main() {
 		if(tmp != 0)
 			printf("%c", tmp);
 	}
-	printf("\n");
+	//printf("\n");
 	return 0;
 }
