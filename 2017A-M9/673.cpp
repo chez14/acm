@@ -1,40 +1,35 @@
-#include<cstdio>
-#include<vector>
-#include<cstring>
+#include<iostream>
+#include<stack>
+#include<string>
+#include<algorithm>
+
 using namespace std;
-int main(){
-    char kambing[131];
-    int tc=0;
-    scanf("%d", &tc);
-    fgets(kambing, 128, stdin);
-    vector<char> ka;
+
+int main() {
+    string a;
+    int tc;
+    cin >> tc;
+    getline(cin, a);
     while(tc-->0){
-        ka.clear();
-        //scanf("%s", kambing);
-        fgets(kambing, 128, stdin);
-        // if(kambing[0] == ']' || kambing[0] == ')')
-        //     ka.push_back('x');
-        char *pos;
-        if ((pos=strchr(kambing, '\n')) != NULL)
-            *pos = '\0';
-        int maks = strlen(kambing);
-        for(int i=0; i<maks; i++ ) {
-            if(kambing[i] == ']' || kambing[i] == ')') {
-                char temen = (kambing[i] == ']'?'[':'(');
-                //printf("<<{%c-%c}  ", kambing[i], temen);
-                if(ka.empty() || ka.back() != temen){
-                    ka.push_back('n');
+        stack<char> kambing;
+        getline(cin, a);
+        a.erase(remove(a.begin(), a.end(), (char)13), a.end());
+        a.erase(remove(a.begin(), a.end(), '\n'), a.end());
+        for(char z:a){
+            if(z == '[' || z == '('){
+                //cout << "-> event: push " << z << endl;
+                kambing.push(z);
+            } else if(z==']' || z==')') {
+                char temen = (z==']')?'[':'(';
+                //cout << "-> event: pop  " << z << " of " << temen << endl;
+                //cout << " ~ Top: " << kambing.top() << endl;
+                if(kambing.empty() || kambing.top() != temen){
+                    kambing.push('x');
                     break;
-                } else {
-                    ka.pop_back();
                 }
-            } else if(kambing[i] == '[' || kambing[i] == '(') {
-                //printf("^{%c}  ", kambing[i]);
-                ka.push_back(kambing[i]);
+                kambing.pop();
             }
         }
-        //printf(" ||| ");
-        printf("%s\n", (ka.empty()?"Yes":"No"));
+        cout << (kambing.empty()?"Yes":"No") << endl;
     }
-    return 0;
 }
